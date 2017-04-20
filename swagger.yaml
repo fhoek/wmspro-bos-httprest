@@ -2,7 +2,10 @@ swagger: "2.0"
 info:
   version: 1.0.0
   title: "BOXwise Pro BOS REST API"
-  description: The BOS REST API is the API used by BOXwise Pro to register, lookup offline scanners and uploading/downloading files.
+  description: | 
+    The BOS REST API is the API used by BOXwise Pro to register, lookup offline scanners and uploading/downloading files.
+    
+    The API is secured using a simple API Key Request Authorization scheme.
   termsOfService: http://app.boxwise.nl/api/terms/
   contact:
     name: Trancon bv 
@@ -13,6 +16,13 @@ info:
     url: http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT
 host: bos-httprest.boxwise.nl
 basePath: /api
+tags:
+  - name: Licenses
+    description: |
+      Licenses refer to BOXwise Pro licenses. These are created here in order to register scanners to a license.
+  - name: Scanners
+    description: |
+      Scanners refer to BOXwise Pro (Offline) scanners.
 schemes:
   - https
 consumes:
@@ -23,8 +33,7 @@ securityDefinitions:
   ApiKeyAuthorization:
     type: apiKey
     name: Authorization
-    description: |
-      The API can only be used when you authorize the request using an API Key Token.
+    description: The API can only be used when you authorize the request using an API Key Token.
     in: header
 security:
   - ApiKeyAuthorization: []
@@ -34,6 +43,8 @@ paths:
       description: |
         Returns all registered BOXwise Pro licenses.
       operationId: findLicenses
+      tags:
+        - Licenses
       parameters:
         - name: name
           in: query
@@ -64,6 +75,8 @@ paths:
     post:
       description: Creates a new license in the store.  Duplicates are not allowed.
       operationId: addLicense
+      tags:
+        - Licenses
       parameters:
         - name: license
           in: body
@@ -83,6 +96,8 @@ paths:
     delete:
       description: Deletes an existing license in the store.
       operationId: deleteLicense
+      tags:
+        - Licenses
       parameters:
         - name: licenseid
           in: query
@@ -101,6 +116,8 @@ paths:
       description: |
         Returns all offline scanners registered for this license id.
       operationId: findScanners
+      tags:
+        - Scanners
       parameters:
         - name: licenseid
           in: query
@@ -129,6 +146,8 @@ paths:
     post:
       description: Creates a new scanner in the store.  Duplicates are not allowed. The serial number is checked against all other serial numbers registered ignoring under which licenseid they are registered.
       operationId: addScanner
+      tags:
+        - Scanners
       parameters:
         - name: scanner
           in: body
@@ -149,6 +168,8 @@ paths:
     get:
       description: Returns a scanner based on the serial number.
       operationId: findScannerBySerialNo
+      tags:
+        - Scanners
       parameters:
         - name: serialno
           in: path
@@ -167,6 +188,8 @@ paths:
     delete:
       description: deletes a single scanner based on the serial number supplied.
       operationId: deleteScannerBySerialNo
+      tags:
+        - Scanners
       parameters:
         - name: serialno
           in: path
@@ -210,6 +233,10 @@ definitions:
     properties:
       key:
         type: string
+    example:
+      key: 3422423532
+      licenseid: 122
+      name: "Customer X"
   NewLicense:
     required:
       - licenseid
@@ -220,6 +247,9 @@ definitions:
         format: int32
       name:
         type: string
+    example:
+      licenseid: 122
+      name: "Customer X"
   Scanner:
     allOf:
       - $ref: '#/definitions/NewScanner'
