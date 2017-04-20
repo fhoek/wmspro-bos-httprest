@@ -5,7 +5,7 @@ info:
   description: | 
     The BOS REST API is the API used by BOXwise Pro to register, lookup offline scanners and uploading/downloading files.
     
-    The API is secured using a simple API Key Request Authorization scheme.
+    The API is secured using a simple API Key Request Authorization scheme. Make sure the API Token is injected in the Headers of each request.
   termsOfService: http://app.boxwise.nl/api/terms/
   contact:
     name: Trancon bv 
