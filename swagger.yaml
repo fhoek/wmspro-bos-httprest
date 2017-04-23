@@ -6,6 +6,11 @@ info:
     The BOS REST API is the API used by BOXwise Pro to register, lookup offline scanners and uploading/downloading files.
     
     The API is secured using a simple API Key Request Authorization scheme. Make sure the API Token is injected in the Headers of each request.
+    
+    ```javascript
+    const request = require('request-promise');
+    
+    ```
   termsOfService: http://app.boxwise.nl/api/terms/
   contact:
     name: Trancon bv 
@@ -20,6 +25,9 @@ tags:
   - name: Licenses
     description: |
       Licenses refer to BOXwise Pro licenses. These are created here in order to register scanners to a license.
+  - name: Files
+    description: |
+      Files refer to BOXwise Pro scanner files. These files are synced with the scanner.
   - name: Scanners
     description: |
       Scanners refer to BOXwise Pro (Offline) scanners.
@@ -111,10 +119,97 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /licenses/{licenseid}/files:
+    get:
+      description: |
+        List all files registered for this license id.
+      operationId: findFiles
+      tags:
+        - Files
+      parameters:
+        - name: licenseid
+          in: path
+          description: BOXwise Pro licenseid to filter on
+          required: true
+          type: string
+          default: none
+        - name: prefix
+          in: query
+          description: the prefix/folder to filter on
+          required: false
+          type: string
+          default: "/"
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+          default: 30
+        - name: pagecursor
+          in: query
+          description: the next page starting from cursor
+          required: false
+          type: string
+      responses:
+        200:
+          description: files response
+          schema:
+            $ref: '#/definitions/Files'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /licenses/{licenseid}/files/submit:
+    post:
+      description: |
+        Upload a new file
+      operationId: uploadFile
+      consumes:
+        - application/x-www-form-urlencoded
+        - multipart/form-data
+      tags:
+        - Files
+      parameters:
+        - name: licenseid
+          in: path
+          description: BOXwise Pro licenseid to filter on
+          required: true
+          type: string
+          default: none
+        - name: file
+          in: formData
+          description: The uploaded file data
+          required: true
+          type: file
+        - name: filename
+          in: formData
+          description: The name of the file
+          required: true
+          type: string
+        - name: overwrite
+          in: formData
+          description: Overwriteif exists
+          required: true
+          type: boolean
+          default: true
+        - name: prefix
+          in: formData
+          description: The prefix/folder to upload file to
+          required: false
+          type: string
+          default: "/"
+      responses:
+        200:
+          description: files response
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
   /scanners:
     get:
       description: |
-        Returns all offline scanners registered for this license id.
+        Returns all scanners registered for this license id.
       operationId: findScanners
       tags:
         - Scanners
@@ -243,17 +338,16 @@ definitions:
       - name
     properties:
       licenseid:
-        type: integer
-        format: int32
+        type: string
       name:
         type: string
     example:
-      licenseid: 122
+      licenseid: "122"
       name: "Customer X"
   Scanner:
     allOf:
       - $ref: '#/definitions/NewScanner'
-    required:
+    required  :
       - key
     properties:
       key:
@@ -280,3 +374,37 @@ definitions:
         format: int32
       message:
         type: string
+  Files:
+    allOf:
+      - $ref: '#/definitions/PagedResult'
+    properties:
+      result:
+        type: array
+        items:
+          $ref: '#/definitions/File'
+    example:
+      nextcursor: kwqjhekjeekwq32u4hfgde==
+      result: 
+        - name: "meta.dat"
+          size: 115
+        - name: "prodidx.dat"
+          size: 3343
+  File:
+    required:
+      - name
+      - size
+    properties:
+      name:
+        type: string
+      size:
+        type: integer
+        format: int64
+      timeCreated:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+    example:
+      name: "meta.dat"
+      size: 115
