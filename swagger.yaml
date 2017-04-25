@@ -15,11 +15,11 @@ info:
   contact:
     name: Trancon bv 
     email: f.vandenhoek@trancon.nl
-    url: https://www.trancon.nl
+    url: http://docs.boxwiseprobosrestapi.apiary.io
   license:
     name: MIT
     url: http://github.com/gruntjs/grunt/blob/master/LICENSE-MIT
-host: bos-httprest.boxwise.nl
+host: bos-httprest.app.boxwise.nl
 basePath: /api
 tags:
   - name: Licenses
@@ -166,8 +166,8 @@ paths:
         Upload a new file
       operationId: uploadFile
       consumes:
-        - application/x-www-form-urlencoded
         - multipart/form-data
+        - application/x-www-form-urlencoded
       tags:
         - Files
       parameters:
