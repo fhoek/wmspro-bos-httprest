@@ -277,7 +277,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
     post:
-      description: Creates a new scanner in the store.  Duplicates are not allowed. The serial number is checked against all other serial numbers registered ignoring under which licenseid they are registered.
+      description: Creates a new scanner in the store. Duplicates are not allowed. The serial number is checked against all other serial numbers registered regardless under which licenseid they are registered.
       operationId: addScanner
       tags:
         - Scanners
