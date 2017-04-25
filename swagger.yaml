@@ -319,8 +319,8 @@ paths:
           schema:
             $ref: '#/definitions/Error'
     delete:
-      description: deletes a single scanner based on the serial number supplied.
-      operationId: deleteScannerBySerialNo
+      description: Deletes a single scanner based on the serial number supplied.
+      operationId: deleteScanner
       tags:
         - Scanners
       parameters:
