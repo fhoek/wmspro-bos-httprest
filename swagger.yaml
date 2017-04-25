@@ -31,6 +31,9 @@ tags:
   - name: Scanners
     description: |
       Scanners refer to BOXwise Pro (Offline) scanners.
+  - name: AppVersions
+    description: |
+      Application Versions refer to BOXwise Pro (Offline) scanners application versions.
 schemes:
   - https
 consumes:
@@ -101,6 +104,7 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /licenses/{licenseid}:
     delete:
       description: Deletes an existing license in the store.
       operationId: deleteLicense
@@ -108,7 +112,7 @@ paths:
         - Licenses
       parameters:
         - name: licenseid
-          in: query
+          in: path
           description: License id of the license to delete from the store
           required: true
           type: string
@@ -119,7 +123,7 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /licenses/{licenseid}/files:
+  /files/{licenseid}:
     get:
       description: |
         List all files registered for this license id.
@@ -160,7 +164,7 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/Error'
-  /licenses/{licenseid}/files/submit:
+  /files/{licenseid}/submit:
     post:
       description: |
         Upload a new file
@@ -202,6 +206,37 @@ paths:
       responses:
         200:
           description: files response
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /files/{licenseid}/delete:
+    delete:
+      description: Deletes an existing file in the store.
+      operationId: deleteFile
+      tags:
+        - Files
+      parameters:
+        - name: licenseid
+          in: path
+          description: BOXwise Pro licenseid to filter on
+          required: true
+          type: string
+          default: none
+        - name: name
+          in: query
+          description: the name of the file
+          required: true
+          type: string
+        - name: prefix
+          in: query
+          description: the prefix/folder the files resides in
+          required: false
+          type: string
+          default: "/"
+      responses:
+        204:
+          description: file deleted
         default:
           description: unexpected error
           schema:
@@ -301,6 +336,34 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /appversions/:
+    get:
+      description: Returns all Offline Scanner application versions (.hex files).
+      operationId: findAppVersions
+      tags:
+        - AppVersions
+      parameters:
+        - name: limit
+          in: query
+          description: maximum number of results to return
+          required: false
+          type: integer
+          format: int32
+          default: 30
+        - name: pagecursor
+          in: query
+          description: the next page starting from cursor
+          required: false
+          type: string
+      responses:
+        200:
+          description: app versions response
+          schema:
+            $ref: '#/definitions/AppVersions'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   PagedResult:
     properties:
@@ -320,9 +383,11 @@ definitions:
         - name: "Customer X"
           licenseid: 112
           key: 324764278
+          timeCreated: "1985-04-12T23:20:50.52Z"
         - name: "Customer Y"
           licenseid: 113
           key: 32474344278
+          timeCreated: "1985-04-12T23:20:50.52Z"
   License:
     allOf:
       - $ref: '#/definitions/NewLicense'
@@ -331,10 +396,14 @@ definitions:
     properties:
       key:
         type: string
+      timeCreated:
+        type: string
+        format: date-time
     example:
       key: -3422423532
       licenseid: 122
       name: "Customer X"
+      timeCreated: "1985-04-12T23:20:50.52Z"
   NewLicense:
     required:
       - licenseid
@@ -362,10 +431,12 @@ definitions:
           licenseid: "122"
           serialno: "263563"
           name: "Scanner Nr 5 - Bovenij"
+          timeCreated: "1985-04-12T23:20:50.52Z"
         - key: "-27823678462"
           licenseid: "122"
           serialno: "263564"
           name: "Scanner Nr 6 - Bovenij"
+          timeCreated: "1985-04-12T23:20:50.52Z"
   Scanner:
     allOf:
       - $ref: '#/definitions/NewScanner'
@@ -374,11 +445,15 @@ definitions:
     properties:
       key:
         type: string
+      timeCreated:
+        type: string
+        format: date-time
     example:
       key: "-27823678462"
       licenseid: "122"
       serialno: "263563"
       name: "Scanner Nr 5 - Bovenij"
+      timeCreated: "1985-04-12T23:20:50.52Z"
   NewScanner:
     required:
       - licenseid
@@ -395,22 +470,45 @@ definitions:
       licenseid: "122"
       serialno: "263563"
       name: "Scanner Nr 5 - Bovenij"
-  Error:
+  NewAppVersion:
     required:
-      - statusCode
-      - error
+      - version
     properties:
-      statusCode:
-        type: integer
-        format: int32
-      error:
+      version:
         type: string
-      message:
+      description:
         type: string
     example:
-      statusCode: 500
-      error: "Internal Server Erorr"
-      message: "An unhandled Internal Server Erorr occurred"
+      version: "0.1.0"
+      description: "Version 0.1.0 - Eerste versie (alleen Bestellen menu)"
+  AppVersion:
+    allOf:
+      - $ref: '#/definitions/NewAppVersion'
+    properties:
+      timeCreated:
+        type: string
+        format: date-time
+    example:
+      version: "0.1.0"
+      description: "Version 0.1.0 - Eerste versie (alleen Bestellen menu)"
+      timeCreated: "1985-04-12T23:20:50.52Z"
+  AppVersions:
+    allOf:
+      - $ref: '#/definitions/PagedResult'
+    properties:
+      result:
+        type: array
+        items:
+          $ref: '#/definitions/AppVersion'
+    example:
+      nextcursor: kwqjhekjeejhv6kwq32u4hfgde==
+      result: 
+        - version: "0.1.0"
+          description: "Version 0.1.0 - Eerste versie (alleen Bestellen menu)"
+          timeCreated: "1985-04-12T23:20:50.52Z"
+        - version: "0.1.1"
+          description: "Version 0.1.1 - jhgjhg"
+          timeCreated: "1985-04-12T23:20:50.52Z"
   Files:
     allOf:
       - $ref: '#/definitions/PagedResult'
@@ -424,8 +522,11 @@ definitions:
       result: 
         - name: "meta.dat"
           size: 115
+          timeCreated: "1985-04-12T23:20:50.52Z"
         - name: "prodidx.dat"
           size: 3343
+          timeCreated: "1985-04-12T23:20:50.52Z"
+          updated: "1985-04-12T23:20:50.52Z"
   File:
     required:
       - name
@@ -445,3 +546,21 @@ definitions:
     example:
       name: "meta.dat"
       size: 115
+      timeCreated: "1985-04-12T23:20:50.52Z"
+      updated: "1985-04-12T23:20:50.52Z"
+  Error:
+    required:
+      - statusCode
+      - error
+    properties:
+      statusCode:
+        type: integer
+        format: int32
+      error:
+        type: string
+      message:
+        type: string
+    example:
+      statusCode: 500
+      error: "Internal Server Erorr"
+      message: "An unhandled Internal Server Erorr occurred"
