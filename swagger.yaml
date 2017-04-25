@@ -227,13 +227,16 @@ paths:
           type: integer
           format: int32
           default: 30
+        - name: pagecursor
+          in: query
+          description: the next page starting from cursor
+          required: false
+          type: string
       responses:
         200:
           description: scanner response
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/Scanner'
+            $ref: '#/definitions/Scanners'
         default:
           description: unexpected error
           schema:
@@ -329,7 +332,7 @@ definitions:
       key:
         type: string
     example:
-      key: 3422423532
+      key: -3422423532
       licenseid: 122
       name: "Customer X"
   NewLicense:
@@ -344,6 +347,25 @@ definitions:
     example:
       licenseid: "122"
       name: "Customer X"
+  Scanners:
+    allOf:
+      - $ref: '#/definitions/PagedResult'
+    properties:
+      result:
+        type: array
+        items:
+          $ref: '#/definitions/Scanner'
+    example:
+      nextcursor: kwqjhewekjeekwq32u4hfgde==
+      result: 
+        - key: "-27823678462"
+          licenseid: "122"
+          serialno: "263563"
+          name: "Scanner Nr 5 - Bovenij"
+        - key: "-27823678462"
+          licenseid: "122"
+          serialno: "263564"
+          name: "Scanner Nr 6 - Bovenij"
   Scanner:
     allOf:
       - $ref: '#/definitions/NewScanner'
@@ -352,6 +374,11 @@ definitions:
     properties:
       key:
         type: string
+    example:
+      key: "-27823678462"
+      licenseid: "122"
+      serialno: "263563"
+      name: "Scanner Nr 5 - Bovenij"
   NewScanner:
     required:
       - licenseid
@@ -364,6 +391,10 @@ definitions:
         type: string
       name:
         type: string
+    example:
+      licenseid: "122"
+      serialno: "263563"
+      name: "Scanner Nr 5 - Bovenij"
   Error:
     required:
       - statusCode
@@ -376,6 +407,10 @@ definitions:
         type: string
       message:
         type: string
+    example:
+      statusCode: 500
+      error: "Internal Server Erorr"
+      message: "An unhandled Internal Server Erorr occurred"
   Files:
     allOf:
       - $ref: '#/definitions/PagedResult'
