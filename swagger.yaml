@@ -164,6 +164,8 @@ paths:
       responses:
         200:
           description: license app version set response
+        204:
+          description: not found
         default:
           description: unexpected error
           schema:
@@ -345,7 +347,7 @@ paths:
   /scanners/{serialno}:
     get:
       description: Returns a scanner based on the serial number.
-      operationId: findScannerBySerialNo
+      operationId: getScannerBySerialNo
       tags:
         - Scanners
       parameters:
@@ -359,6 +361,8 @@ paths:
           description: scanner response
           schema:
             $ref: '#/definitions/Scanner'
+        204:
+          description: not found
         default:
           description: unexpected error
           schema:
