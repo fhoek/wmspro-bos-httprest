@@ -197,11 +197,6 @@ paths:
           type: integer
           format: int32
           default: 30
-        - name: pagecursor
-          in: query
-          description: the next page starting from cursor
-          required: false
-          type: string
       responses:
         200:
           description: files response
@@ -630,15 +625,12 @@ definitions:
           description: "Version 0.1.1 - jhgjhg"
           timeCreated: "1985-04-12T23:20:50.52Z"
   Files:
-    allOf:
-      - $ref: '#/definitions/PagedResult'
     properties:
       result:
         type: array
         items:
           $ref: '#/definitions/File'
     example:
-      nextcursor: kwqjhekjeekwq32u4hfgde==
       result: 
         - name: "meta.dat"
           size: 115
