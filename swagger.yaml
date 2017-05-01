@@ -588,7 +588,7 @@ definitions:
         type: string
     example:
       version: "0.1.1"
-  NewAppVersion:
+  AppVersion:
     required:
       - version
     properties:
@@ -596,13 +596,8 @@ definitions:
         type: string
       description:
         type: string
-    example:
-      version: "0.1.0"
-      description: "Version 0.1.0 - Eerste versie (alleen Bestellen menu)"
-  AppVersion:
-    allOf:
-      - $ref: '#/definitions/NewAppVersion'
-    properties:
+      filename:
+        type: string
       timeCreated:
         type: string
         format: date-time
