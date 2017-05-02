@@ -7,9 +7,8 @@ info:
     
     The API is secured using a simple API Key Request Authorization scheme. Make sure the API Token is injected in the Headers of each request.
     
-    ```javascript
-    const request = require('request-promise');
-    
+    ```bash
+    curl -X GET --header 'Accept: application/json' --header 'Authorization: Bearer <token>'
     ```
   termsOfService: http://app.boxwise.nl/api/terms/
   contact:
