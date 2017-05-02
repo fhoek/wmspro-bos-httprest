@@ -100,6 +100,10 @@ paths:
           description: license response
           schema:
             $ref: '#/definitions/License'
+        400:
+          description: Bad Request/Validation error
+          schema:
+            $ref: '#/definitions/Error'
         default:
           description: unexpected error
           schema:
@@ -119,6 +123,10 @@ paths:
       responses:
         204:
           description: license deleted
+        400:
+          description: Bad Request/Validation error
+          schema:
+            $ref: '#/definitions/Error'
         default:
           description: unexpected error
           schema:
@@ -140,6 +148,10 @@ paths:
           description: license app version response
           schema:
             $ref: '#/definitions/LicenseAppVersion'
+        400:
+          description: Bad Request/Validation error
+          schema:
+            $ref: '#/definitions/Error'
         default:
           description: unexpected error
           schema:
@@ -164,8 +176,10 @@ paths:
       responses:
         200:
           description: license app version set response
-        204:
-          description: not found
+        400:
+          description: Bad Request/Validation error
+          schema:
+            $ref: '#/definitions/Error'
         default:
           description: unexpected error
           schema:
@@ -202,6 +216,10 @@ paths:
           description: files response
           schema:
             $ref: '#/definitions/Files'
+        400:
+          description: Bad Request/Validation error
+          schema:
+            $ref: '#/definitions/Error'
         default:
           description: unexpected error
           schema:
@@ -248,6 +266,10 @@ paths:
       responses:
         200:
           description: files response
+        400:
+          description: Bad Request/Validation error
+          schema:
+            $ref: '#/definitions/Error'
         default:
           description: unexpected error
           schema:
@@ -279,6 +301,10 @@ paths:
       responses:
         204:
           description: file deleted
+        400:
+          description: Bad Request/Validation error
+          schema:
+            $ref: '#/definitions/Error'
         default:
           description: unexpected error
           schema:
@@ -314,6 +340,10 @@ paths:
           description: scanner response
           schema:
             $ref: '#/definitions/Scanners'
+        400:
+          description: Bad Request/Validation error
+          schema:
+            $ref: '#/definitions/Error'
         default:
           description: unexpected error
           schema:
@@ -335,6 +365,10 @@ paths:
           description: scanner response
           schema:
             $ref: '#/definitions/Scanner'
+        400:
+          description: Bad Request/Validation error
+          schema:
+            $ref: '#/definitions/Error'
         default:
           description: unexpected error
           schema:
@@ -356,8 +390,10 @@ paths:
           description: scanner response
           schema:
             $ref: '#/definitions/Scanner'
-        204:
-          description: not found
+        400:
+          description: Bad Request/Validation error
+          schema:
+            $ref: '#/definitions/Error'
         default:
           description: unexpected error
           schema:
@@ -376,6 +412,10 @@ paths:
       responses:
         204:
           description: scanner deleted
+        400:
+          description: Bad Request/Validation error
+          schema:
+            $ref: '#/definitions/Error'
         default:
           description: unexpected error
           schema:
@@ -404,6 +444,10 @@ paths:
           description: app versions response
           schema:
             $ref: '#/definitions/AppVersions'
+        400:
+          description: Bad Request/Validation error
+          schema:
+            $ref: '#/definitions/Error'
         default:
           description: unexpected error
           schema:
@@ -446,6 +490,10 @@ paths:
       responses:
         200:
           description: Version uploaded response
+        400:
+          description: Bad Request/Validation error
+          schema:
+            $ref: '#/definitions/Error'
         default:
           description: unexpected error
           schema:
@@ -465,6 +513,10 @@ paths:
       responses:
         204:
           description: version deleted
+        400:
+          description: Bad Request/Validation error
+          schema:
+            $ref: '#/definitions/Error'
         default:
           description: unexpected error
           schema:
