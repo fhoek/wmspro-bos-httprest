@@ -528,11 +528,12 @@ definitions:
   Licenses:
     allOf:
       - $ref: '#/definitions/PagedResult'
-    properties:
-      result:
-        type: array
-        items:
-          $ref: '#/definitions/License'
+      - type: object
+        properties:
+          result:
+            type: array
+            items:
+              $ref: '#/definitions/License'
     example:
       nextcursor: kwqjhekjeekwq32u4hfgde==
       result: 
@@ -547,14 +548,15 @@ definitions:
   License:
     allOf:
       - $ref: '#/definitions/NewLicense'
+      - type: object
+        properties:
+          key:
+            type: string
+          timeCreated:
+            type: string
+            format: date-time
     required:
       - key
-    properties:
-      key:
-        type: string
-      timeCreated:
-        type: string
-        format: date-time
     example:
       key: -3422423532
       licenseid: 122
@@ -575,11 +577,12 @@ definitions:
   Scanners:
     allOf:
       - $ref: '#/definitions/PagedResult'
-    properties:
-      result:
-        type: array
-        items:
-          $ref: '#/definitions/Scanner'
+      - type: object
+        properties:
+          result:
+            type: array
+            items:
+              $ref: '#/definitions/Scanner'
     example:
       nextcursor: kwqjhewekjeekwq32u4hfgde==
       result: 
@@ -596,14 +599,15 @@ definitions:
   Scanner:
     allOf:
       - $ref: '#/definitions/NewScanner'
+      - type: object
+        properties:
+          key:
+            type: string
+          timeCreated:
+            type: string
+            format: date-time
     required  :
       - key
-    properties:
-      key:
-        type: string
-      timeCreated:
-        type: string
-        format: date-time
     example:
       key: "-27823678462"
       licenseid: "122"
@@ -661,11 +665,12 @@ definitions:
   AppVersions:
     allOf:
       - $ref: '#/definitions/PagedResult'
-    properties:
-      result:
-        type: array
-        items:
-          $ref: '#/definitions/AppVersion'
+      - type: object
+        properties:
+          result:
+            type: array
+            items:
+              $ref: '#/definitions/AppVersion'
     example:
       nextcursor: kwqjhekjeejhv6kwq32u4hfgde==
       result: 
