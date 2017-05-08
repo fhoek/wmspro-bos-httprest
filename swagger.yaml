@@ -484,7 +484,7 @@ paths:
           in: formData
           description: The database/file specs belonging to this version in JSON format.
           required: true
-          type: string
+          type: file
         - name: overwrite
           in: formData
           description: Overwriteif exists
