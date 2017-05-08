@@ -480,6 +480,11 @@ paths:
           description: The name of the file
           required: true
           type: string
+        - name: debspec
+          in: formData
+          description: The database/file specs belonging to this version in JSON format.
+          required: true
+          type: string
         - name: overwrite
           in: formData
           description: Overwriteif exists
