@@ -308,6 +308,39 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /files/{licenseid}/download:
+    get:
+      description: Download a file from the store
+      operationId: downloadFile
+      produces: ['application/octet-stream']
+      tags:
+        - Files
+      parameters:
+        - name: licenseid
+          in: path
+          description: BOXwise Pro licenseid to filter on
+          required: true
+          type: string
+          default: none
+        - name: filepath
+          in: query
+          description: The name and prefix of the file combined (e.g. /in/010203/test.dat)
+          required: true
+          type: string
+          default: none
+      responses:
+        200:
+          description: The file download
+          schema:
+            type: file
+        400:
+          description: Bad Request/Validation error
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
   /scanners:
     get:
       description: |
