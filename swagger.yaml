@@ -558,6 +558,31 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/Error'
+  /appversions/{version}/dbspec:
+    get:
+      description: Get the dbspec for the specified version
+      operationId: getDbSpecOfVersion
+      tags:
+        - AppVersions
+      parameters:
+        - name: version
+          in: path
+          description: App Version
+          required: true
+          type: string
+      responses:
+        200:
+          description: The DbSpec result
+          schema:
+            $ref: '#/definitions/DbSpecResult'
+        400:
+          description: Bad Request/Validation error
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   PagedResult:
     properties:
@@ -722,6 +747,18 @@ definitions:
         - version: "0.1.1"
           description: "Version 0.1.1 - jhgjhg"
           timeCreated: "1985-04-12T23:20:50.52Z"
+  DbSpecResult:
+    required:
+      - version
+      - specJson
+    properties:
+      version:
+        type: string
+      specJson:
+        type: string
+    example:
+      version: "0.1.0"
+      specJson: "{\"test\":\"test\", \"test2\":[]}"
   Files:
     properties:
       result:
