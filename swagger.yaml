@@ -10,6 +10,12 @@ info:
     ```bash
     curl -X GET --header 'Accept: application/json' --header 'Authorization: Bearer <token>'
     ```
+    
+    For licenses using the API the security pattern is almost the same:
+
+    ```bash
+    curl -X GET --header 'Accept: application/json' --header 'Authorization: License <token>'
+    ```
   termsOfService: http://app.boxwise.nl/api/terms/
   contact:
     name: Trancon bv 
