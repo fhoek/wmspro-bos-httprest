@@ -45,6 +45,11 @@ securityDefinitions:
     name: Authorization
     description: The API can only be used when you authorize the request using an API Key Token.
     in: header
+  LicenseKeySecretAuthorization:
+    type: apiKey
+    name: Authorization
+    description: API Key for specific license that scopes permissions to this license
+    in: header
 security:
   - ApiKeyAuthorization: []
 paths:
@@ -83,8 +88,9 @@ paths:
           schema:
             $ref: '#/definitions/Error'
     post:
-      description: Creates a new license in the store.  Duplicates are not allowed.
+      description: Creates a new license in the store if it does not already exist. Duplicates are not allowed. Returns an unauthorized API Secret which can be used to perform subsequent requests.
       operationId: addLicense
+      security: []
       tags:
         - Licenses
       parameters:
@@ -98,7 +104,7 @@ paths:
         200:
           description: license response
           schema:
-            $ref: '#/definitions/License'
+            $ref: '#/definitions/LicenseWithSecret'
         400:
           description: Bad Request/Validation error
           schema:
@@ -134,6 +140,9 @@ paths:
     get:
       description: Get the current app version for this license
       operationId: getLicenseAppVersion
+      security:
+        - ApiKeyAuthorization: []
+          LicenseKeySecretAuthorization: []
       tags:
         - Licenses
       parameters:
@@ -158,6 +167,9 @@ paths:
     post:
       description: Set the app version for the license in the store.
       operationId: setLicenseAppVersion
+      security:
+        - ApiKeyAuthorization: []
+          LicenseKeySecretAuthorization: []
       tags:
         - Licenses
       parameters:
@@ -188,6 +200,9 @@ paths:
       description: |
         List all files registered for this license id.
       operationId: findFiles
+      security:
+        - ApiKeyAuthorization: []
+          LicenseKeySecretAuthorization: []
       tags:
         - Files
       parameters:
@@ -231,6 +246,9 @@ paths:
       consumes:
         - multipart/form-data
         - application/x-www-form-urlencoded
+      security:
+        - ApiKeyAuthorization: []
+          LicenseKeySecretAuthorization: []
       tags:
         - Files
       parameters:
@@ -277,6 +295,9 @@ paths:
     delete:
       description: Deletes an existing file in the store.
       operationId: deleteFile
+      security:
+        - ApiKeyAuthorization: []
+          LicenseKeySecretAuthorization: []
       tags:
         - Files
       parameters:
@@ -313,6 +334,9 @@ paths:
       description: Download a file from the store
       operationId: downloadFile
       produces: ['application/octet-stream']
+      security:
+        - ApiKeyAuthorization: []
+          LicenseKeySecretAuthorization: []
       tags:
         - Files
       parameters:
@@ -346,6 +370,9 @@ paths:
       description: |
         Returns all scanners registered for this license id.
       operationId: findScanners
+      security:
+        - ApiKeyAuthorization: []
+          LicenseKeySecretAuthorization: []
       tags:
         - Scanners
       parameters:
@@ -383,6 +410,9 @@ paths:
     post:
       description: Creates a new scanner in the store. Duplicates are not allowed. The serial number is checked against all other serial numbers registered regardless under which licenseid they are registered.
       operationId: addScanner
+      security:
+        - ApiKeyAuthorization: []
+          LicenseKeySecretAuthorization: []
       tags:
         - Scanners
       parameters:
@@ -409,6 +439,9 @@ paths:
     get:
       description: Returns a scanner based on the serial number.
       operationId: getScannerBySerialNo
+      security:
+        - ApiKeyAuthorization: []
+          LicenseKeySecretAuthorization: []
       tags:
         - Scanners
       parameters:
@@ -433,6 +466,9 @@ paths:
     delete:
       description: Deletes a single scanner based on the serial number supplied.
       operationId: deleteScanner
+      security:
+        - ApiKeyAuthorization: []
+          LicenseKeySecretAuthorization: []
       tags:
         - Scanners
       parameters:
@@ -456,6 +492,9 @@ paths:
     get:
       description: Returns all Offline Scanner application versions (.hex files).
       operationId: findAppVersions
+      security:
+        - ApiKeyAuthorization: []
+          LicenseKeySecretAuthorization: []
       tags:
         - AppVersions
       parameters:
@@ -562,6 +601,9 @@ paths:
     get:
       description: Get the dbspec for the specified version
       operationId: getDbSpecOfVersion
+      security:
+        - ApiKeyAuthorization: []
+          LicenseKeySecretAuthorization: []
       tags:
         - AppVersions
       parameters:
@@ -603,9 +645,11 @@ definitions:
         - name: "Customer X"
           licenseid: 112
           key: 324764278
+          isAuthorized: false
           timeCreated: "1985-04-12T23:20:50.52Z"
         - name: "Customer Y"
           licenseid: 113
+          isAuthorized: false
           key: 32474344278
           timeCreated: "1985-04-12T23:20:50.52Z"
   License:
@@ -615,6 +659,8 @@ definitions:
         properties:
           key:
             type: string
+          isAuthorized:
+            type: boolean
           timeCreated:
             type: string
             format: date-time
@@ -624,19 +670,41 @@ definitions:
       key: -3422423532
       licenseid: 122
       name: "Customer X"
+      isAuthorized: false
+      timeCreated: "1985-04-12T23:20:50.52Z"
+  LicenseWithSecret:
+    allOf:
+      - $ref: '#/definitions/License'
+      - type: object
+        properties:
+          apiKey:
+            type: string
+    required:
+      - key
+      - apiKey
+    example:
+      key: 122
+      licenseid: 122
+      name: "Customer X"
+      apiKey: "dkjd238o7rgkjbdewqjkqrewjkhrekujg"
+      isAuthorized: false
       timeCreated: "1985-04-12T23:20:50.52Z"
   NewLicense:
     required:
       - licenseid
       - name
+      - secret
     properties:
       licenseid:
+        type: string
+      secret:
         type: string
       name:
         type: string
     example:
       licenseid: "122"
       name: "Customer X"
+      secret: "secret"
   Scanners:
     allOf:
       - $ref: '#/definitions/PagedResult'
