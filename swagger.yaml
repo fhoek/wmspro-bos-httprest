@@ -659,19 +659,22 @@ definitions:
           key: 32474344278
           timeCreated: "1985-04-12T23:20:50.52Z"
   License:
-    allOf:
-      - $ref: '#/definitions/NewLicense'
-      - type: object
-        properties:
-          key:
-            type: string
-          isAuthorized:
-            type: boolean
-          timeCreated:
-            type: string
-            format: date-time
     required:
       - key
+      - licenseid
+      - name
+    properties:
+      key:
+        type: string
+      licenseid:
+        type: string
+      name:
+        type: string
+      isAuthorized:
+        type: boolean
+      timeCreated:
+        type: string
+        format: date-time
     example:
       key: -3422423532
       licenseid: 122
