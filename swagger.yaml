@@ -7,15 +7,17 @@ info:
     
     The API is secured using a simple API Key Request Authorization scheme. Make sure the API Token is injected in the Headers of each request.
     
-    ```bash
+    ```
     curl -X GET --header 'Accept: application/json' --header 'Authorization: Bearer <token>'
     ```
     
-    For licenses using the API the security pattern is almost the same:
+    For licenses (non-admin) using the API the security pattern is almost the same:
 
-    ```bash
+    ```
     curl -X GET --header 'Accept: application/json' --header 'Authorization: License <token>'
     ```
+    
+    Make sure token is base64 encoded string of `licenseid:apikey` combined.
   termsOfService: http://app.boxwise.nl/api/terms/
   contact:
     name: Trancon bv 
