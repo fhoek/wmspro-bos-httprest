@@ -127,7 +127,7 @@ paths:
             $ref: '#/definitions/Error'
     put:
       description: Edits an existing license in the store.
-      operationId: addLicense
+      operationId: editLicense
       tags:
         - Licenses
       parameters:
