@@ -96,7 +96,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
     post:
-      description: Creates a new license in the store if it does not already exist. Duplicates are not allowed. Returns an unauthorized API Secret which can be used to perform subsequent requests.
+      description: Creates a new license in the store if it does not already exist. Duplicates are not allowed. Returns an unauthorized API Key which can be used to perform subsequent requests (after it is approved).
       operationId: addLicense
       security: []
       tags:
@@ -115,6 +115,10 @@ paths:
             $ref: '#/definitions/LicenseWithSecret'
         400:
           description: Bad Request/Validation error
+          schema:
+            $ref: '#/definitions/Error'
+        409:
+          description: Conflict/Already exists
           schema:
             $ref: '#/definitions/Error'
         default:
