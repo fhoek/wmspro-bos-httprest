@@ -681,22 +681,17 @@ definitions:
       result: 
         - name: "Customer X"
           licenseid: 112
-          key: 324764278
           isAuthorized: false
           timeCreated: "1985-04-12T23:20:50.52Z"
         - name: "Customer Y"
           licenseid: 113
           isAuthorized: false
-          key: 32474344278
           timeCreated: "1985-04-12T23:20:50.52Z"
   License:
     required:
-      - key
       - licenseid
       - name
     properties:
-      key:
-        type: string
       licenseid:
         type: string
       name:
@@ -707,7 +702,6 @@ definitions:
         type: string
         format: date-time
     example:
-      key: -3422423532
       licenseid: 122
       name: "Customer X"
       isAuthorized: false
@@ -723,7 +717,6 @@ definitions:
       - key
       - apiKey
     example:
-      key: 122
       licenseid: 122
       name: "Customer X"
       apiKey: "dkjd238o7rgkjbdewqjkqrewjkhrekujg"
@@ -757,13 +750,11 @@ definitions:
     example:
       nextcursor: kwqjhewekjeekwq32u4hfgde==
       result: 
-        - key: "-27823678462"
-          licenseid: "122"
+        - licenseid: "122"
           serialno: "263563"
           name: "Scanner Nr 5 - Bovenij"
           timeCreated: "1985-04-12T23:20:50.52Z"
-        - key: "-27823678462"
-          licenseid: "122"
+        - licenseid: "122"
           serialno: "263564"
           name: "Scanner Nr 6 - Bovenij"
           timeCreated: "1985-04-12T23:20:50.52Z"
@@ -772,17 +763,16 @@ definitions:
       - $ref: '#/definitions/NewScanner'
       - type: object
         properties:
-          key:
+          serialno:
             type: string
           timeCreated:
             type: string
             format: date-time
     required  :
-      - key
+      - serialno
     example:
-      key: "-27823678462"
-      licenseid: "122"
       serialno: "263563"
+      licenseid: "122"
       name: "Scanner Nr 5 - Bovenij"
       timeCreated: "1985-04-12T23:20:50.52Z"
   NewScanner:
