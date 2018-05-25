@@ -125,6 +125,31 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/Error'
+    put:
+      description: Edits an existing license in the store.
+      operationId: addLicense
+      tags:
+        - Licenses
+      parameters:
+        - name: license
+          in: body
+          description: License to edit in the store
+          required: true
+          schema:
+            $ref: '#/definitions/License'
+      responses:
+        200:
+          description: license response
+          schema:
+            $ref: '#/definitions/License'
+        400:
+          description: Bad Request/Validation error
+          schema:
+            $ref: '#/definitions/Error'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/Error'
   /licenses/{licenseid}:
     delete:
       description: Deletes an existing license in the store.
@@ -720,6 +745,20 @@ definitions:
       licenseid: "122"
       name: "Customer X"
       secret: "secret"
+  EditLicense:
+    required:
+      - licenseid
+      - name
+    properties:
+      licenseid:
+        type: string
+      secret:
+        type: string
+      name:
+        type: string
+    example:
+      key: string
+      name: "Customer X"
   Scanners:
     allOf:
       - $ref: '#/definitions/PagedResult'
