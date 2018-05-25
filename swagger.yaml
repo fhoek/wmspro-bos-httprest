@@ -763,8 +763,6 @@ definitions:
       - $ref: '#/definitions/NewScanner'
       - type: object
         properties:
-          serialno:
-            type: string
           timeCreated:
             type: string
             format: date-time
