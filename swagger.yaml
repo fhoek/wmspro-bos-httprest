@@ -745,20 +745,6 @@ definitions:
       licenseid: "122"
       name: "Customer X"
       secret: "secret"
-  EditLicense:
-    required:
-      - licenseid
-      - name
-    properties:
-      licenseid:
-        type: string
-      secret:
-        type: string
-      name:
-        type: string
-    example:
-      key: string
-      name: "Customer X"
   Scanners:
     allOf:
       - $ref: '#/definitions/PagedResult'
