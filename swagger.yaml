@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  version: 1.0.0
+  version: 2.0.0
   title: "BOXwise Pro BOS REST API"
   description: | 
     The BOS REST API is the API used by BOXwise Pro to register, lookup offline scanners and uploading/downloading files.
@@ -16,7 +16,7 @@ info:
     ```
     curl -X GET --header 'Accept: application/json' --header 'Authorization: License <token>'
     ```
-    
+
     Make sure token is base64 encoded string of `licenseid:apikey` combined.
   termsOfService: http://app.boxwise.nl/api/terms/
   contact:
