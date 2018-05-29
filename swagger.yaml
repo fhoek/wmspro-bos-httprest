@@ -7,10 +7,12 @@ info:
     
     The API is secured using a simple API Key Request Authorization scheme. Make sure the API Token is injected in the Headers of each request.
     
+    **Admin Scoped Access**
     ```
     curl -X GET --header 'Accept: application/json' --header 'Authorization: Bearer [token]'
     ```
     
+    **License Scoped Access**
     For licenses (non-admin) using the API the security pattern is almost the same:
 
     ```
