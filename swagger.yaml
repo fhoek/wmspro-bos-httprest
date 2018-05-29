@@ -714,7 +714,6 @@ definitions:
           apiKey:
             type: string
     required:
-      - key
       - apiKey
     example:
       licenseid: 122
