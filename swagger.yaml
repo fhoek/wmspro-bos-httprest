@@ -8,13 +8,13 @@ info:
     The API is secured using a simple API Key Request Authorization scheme. Make sure the API Token is injected in the Headers of each request.
     
     ```
-    curl -X GET --header 'Accept: application/json' --header 'Authorization: Bearer <token>'
+    curl -X GET --header 'Accept: application/json' --header 'Authorization: Bearer [token]'
     ```
     
     For licenses (non-admin) using the API the security pattern is almost the same:
 
     ```
-    curl -X GET --header 'Accept: application/json' --header 'Authorization: License <token>'
+    curl -X GET --header 'Accept: application/json' --header 'Authorization: License [token]'
     ```
 
     Make sure token is base64 encoded string of `licenseid:apikey` combined.
